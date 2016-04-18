@@ -122,7 +122,7 @@ public class XMLRunnable implements Runnable{
 		}
 		
 		//write records
-		if(!is_new)
+		//if(!is_new)
 			WriterFactory.getInstance(outputPath, arnPrefix).addDocumentsAndWrite(records);
 	}
 
