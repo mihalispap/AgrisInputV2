@@ -355,8 +355,14 @@ public class AgrisApSaxParser extends DefaultHandler {
 									this.current.addTitle(term, this.langTitle);
 								}
 								else {
-									System.out.println("!! title "+term+" already exists in the index!");
-									this.current = null;
+									String lARN="";
+									System.out.println("!! title "+term+" already exists in the index! Found through title!");
+									//System.out.println("ARN:"+this.current.getARN());
+									//this.current = null;
+									lARN = this.indexChecker.checkTitleARN(term);
+									this.current.setARN(lARN);
+									this.current.addTitle(term, this.langTitle);
+									
 								}
 							} else {
 								this.current.addTitle(term, null);

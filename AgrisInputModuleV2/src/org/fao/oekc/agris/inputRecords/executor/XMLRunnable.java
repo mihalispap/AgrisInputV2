@@ -29,6 +29,8 @@ public class XMLRunnable implements Runnable{
 	private String sourceFormat;
 	private Set<String> lines;
 	private List<String> titlesAdded;
+	
+	private int no_duplicates=0;
 
 	/**
 	 * Constructor
@@ -76,8 +78,52 @@ public class XMLRunnable implements Runnable{
 			e.printStackTrace();
 		}
 
+		String current_prefix=arnPrefix.substring(0,2)+arnPrefix.charAt(6);
+		/*At this point the only records having arns are duplicate ones!*/
+		
+		boolean is_new=false;
+		for(int i=0;i<records.size();i++)
+		{
+			if(records.get(i).getARN()!=null)
+			{
+				no_duplicates++;
+				System.out.println("Have duplicate");
+				String[]arns;
+				arns=records.get(i).getARN().split(",");
+				
+				records.get(i).setARN(arns[1]);
+				for(int j=0;j<arns.length;j++)
+				{
+					//System.out.println(arns[j]);
+					
+					if(arns[j]!=null && !arns[j].isEmpty())
+					{
+						try
+						{
+							String prefix=arns[j].substring(0,2)+arns[j].charAt(6);
+							if(!prefix.equals(current_prefix))
+							{
+								records.get(i).setARN(null);
+								is_new=true;
+							}
+						}
+						catch(java.lang.StringIndexOutOfBoundsException e)
+						{
+							
+						}
+						
+					}
+					
+				}
+				
+				//System.out.println("ARN"+records.get(i).getARN());
+				//records.get(i).setARN(null);
+			}
+		}
+		
 		//write records
-		WriterFactory.getInstance(outputPath, arnPrefix).addDocumentsAndWrite(records);
+		if(!is_new)
+			WriterFactory.getInstance(outputPath, arnPrefix).addDocumentsAndWrite(records);
 	}
 
 }

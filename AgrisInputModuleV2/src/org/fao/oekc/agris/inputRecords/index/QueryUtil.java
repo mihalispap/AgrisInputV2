@@ -102,7 +102,7 @@ public class QueryUtil {
 	/*
 	 * Return the results of a query
 	 */
-	private SolrDocumentList getSolrDocumentResult(SolrServer solr, SolrQuery squery) throws SolrServerException{
+	public static SolrDocumentList getSolrDocumentResult(SolrServer solr, SolrQuery squery) throws SolrServerException{
 		//search
 		QueryResponse response = solr.query(squery);
 		return response.getResults();

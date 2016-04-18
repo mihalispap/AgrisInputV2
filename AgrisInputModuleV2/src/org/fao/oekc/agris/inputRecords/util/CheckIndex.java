@@ -1,7 +1,12 @@
 package org.fao.oekc.agris.inputRecords.util;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.common.SolrDocumentList;
+import org.fao.oekc.agris.inputRecords.index.IndexServerFactory;
 import org.fao.oekc.agris.inputRecords.index.QueryUtil;
 
 /**
@@ -65,6 +70,45 @@ public class CheckIndex {
 		} 
 		return -1;
 	}
+	
+	/**
+	 * check if the title is in the index (exact match)
+	 * @param title the title
+	 * @return the arn if found or empty
+	 */
+	public String checkTitleARN(String title){
+		String query = "+title:(\""+title+"\")";
+		
+		String arn="";
+		try {
+			SolrQuery squery = new SolrQuery(query);
+		    
+			SolrDocumentList doclist= QueryUtil.getSolrDocumentResult(IndexServerFactory.startSolr(), squery);
+			
+			//doclist.get(0).get("ARN");
+			
+			//System.out.println(doclist.get(0).get("ARN"));
+			/*TODO: 
+			 * 	perhaps have here a combo value and split on char to parse @XMLRunnable
+			 * */
+			//arn=doclist.get(0).get("ARN").toString();
+			arn="";
+			for(int i=0;i<doclist.size();i++)
+				arn+=","+doclist.get(i).get("ARN");
+			
+			//System.out.println("ARN in func:"+arn);
+			return arn;							
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (SolrServerException e) {
+			//no action
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		return "";
+	}
+
+	
 	
 	/**
 	 * check if the title is in the index (exact match) and associated to a record with fulltext
