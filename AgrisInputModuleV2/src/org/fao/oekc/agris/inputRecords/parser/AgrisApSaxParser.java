@@ -356,7 +356,7 @@ public class AgrisApSaxParser extends DefaultHandler {
 								}
 								else {
 									String lARN="";
-									System.out.println("!! title "+term+" already exists in the index! Found through title!");
+									//System.out.println("!! title "+term+" already exists in the index! Found through title!");
 									//System.out.println("ARN:"+this.current.getARN());
 									//this.current = null;
 									lARN = this.indexChecker.checkTitleARN(term);
@@ -383,7 +383,7 @@ public class AgrisApSaxParser extends DefaultHandler {
 										this.current.addAlternative(term, null);
 									}
 									else {
-										System.out.println("!! title "+term+" already exists in the index!");
+										//System.out.println("!! title "+term+" already exists in the index!");
 										this.current = null;
 									}
 								} else {

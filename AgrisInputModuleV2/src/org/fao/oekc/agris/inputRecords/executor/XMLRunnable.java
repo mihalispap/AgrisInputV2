@@ -87,7 +87,7 @@ public class XMLRunnable implements Runnable{
 			if(records.get(i).getARN()!=null)
 			{
 				no_duplicates++;
-				System.out.println("Have duplicate");
+				//System.out.println("Have duplicate:"+records.get(i).getARN());
 				String[]arns;
 				arns=records.get(i).getARN().split(",");
 				
@@ -98,13 +98,26 @@ public class XMLRunnable implements Runnable{
 					
 					if(arns[j]!=null && !arns[j].isEmpty())
 					{
+						
+						if(arns[j].equals("RU2015000414"))
+							System.out.println(records.get(i).getARN());
+						
 						try
 						{
 							String prefix=arns[j].substring(0,2)+arns[j].charAt(6);
+							
+							if(arns[j].equals("RU2015000414"))
+								System.out.println("Going to compare:"+prefix+", with:"+current_prefix);
+							
 							if(!prefix.equals(current_prefix))
 							{
 								records.get(i).setARN(null);
 								is_new=true;
+								
+								//if(arns[j].equals("RU2015000414"))
+								//{
+									System.out.println("ARN:"+arns[j]+",Prefix:"+prefix+", currentPrefix:"+current_prefix);
+								//}
 							}
 						}
 						catch(java.lang.StringIndexOutOfBoundsException e)
@@ -122,7 +135,7 @@ public class XMLRunnable implements Runnable{
 		}
 		
 		//write records
-		//if(!is_new)
+		if(is_new)
 			WriterFactory.getInstance(outputPath, arnPrefix).addDocumentsAndWrite(records);
 	}
 
