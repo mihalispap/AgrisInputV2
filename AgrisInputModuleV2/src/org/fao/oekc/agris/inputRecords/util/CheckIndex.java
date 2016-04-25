@@ -62,6 +62,9 @@ public class CheckIndex {
 	 */
 	public long checkTitle(String title){
 		String query = "+title:(\""+title+"\")";
+		
+		//System.out.println("Title:"+title);
+		
 		try {
 			QueryUtil util = new QueryUtil();
 			return util.getNumberOfResults(query);						

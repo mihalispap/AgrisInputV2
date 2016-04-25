@@ -81,9 +81,10 @@ public class XMLRunnable implements Runnable{
 		String current_prefix=arnPrefix.substring(0,2)+arnPrefix.charAt(6);
 		/*At this point the only records having arns are duplicate ones!*/
 		
-		boolean is_new=false;
+		boolean write=false;
 		for(int i=0;i<records.size();i++)
 		{
+			boolean is_new=true;
 			if(records.get(i).getARN()!=null)
 			{
 				no_duplicates++;
@@ -91,7 +92,8 @@ public class XMLRunnable implements Runnable{
 				String[]arns;
 				arns=records.get(i).getARN().split(",");
 				
-				records.get(i).setARN(arns[1]);
+				//records.get(i).setARN(arns[1]);
+				records.get(i).setARN(null);
 				for(int j=0;j<arns.length;j++)
 				{
 					//System.out.println(arns[j]);
@@ -99,26 +101,28 @@ public class XMLRunnable implements Runnable{
 					if(arns[j]!=null && !arns[j].isEmpty())
 					{
 						
-						if(arns[j].equals("RU2015000414"))
-							System.out.println(records.get(i).getARN());
-						
 						try
 						{
 							String prefix=arns[j].substring(0,2)+arns[j].charAt(6);
 							
-							if(arns[j].equals("RU2015000414"))
-								System.out.println("Going to compare:"+prefix+", with:"+current_prefix);
+							//if(arns[j].equals("RU2015000487"))
+							//	System.out.println("Going to compare:"+prefix+", with:"+current_prefix);
 							
-							if(!prefix.equals(current_prefix))
+							if(prefix.equals(current_prefix))
+							{
+								System.out.println("Have update!"+arns[j]);
+								records.get(i).setARN(arns[j]);
+								is_new=false;								
+							}
+							
+							/*if(!prefix.equals(current_prefix))
 							{
 								records.get(i).setARN(null);
 								is_new=true;
 								
-								//if(arns[j].equals("RU2015000414"))
-								//{
-									System.out.println("ARN:"+arns[j]+",Prefix:"+prefix+", currentPrefix:"+current_prefix);
-								//}
-							}
+								System.out.println("ARN:"+arns[j]+",Prefix:"+prefix+", currentPrefix:"+current_prefix);
+								
+							}*/
 						}
 						catch(java.lang.StringIndexOutOfBoundsException e)
 						{
@@ -132,10 +136,12 @@ public class XMLRunnable implements Runnable{
 				//System.out.println("ARN"+records.get(i).getARN());
 				//records.get(i).setARN(null);
 			}
+			if(is_new)
+				write=true;
 		}
 		
 		//write records
-		if(is_new)
+		if(write)
 			WriterFactory.getInstance(outputPath, arnPrefix).addDocumentsAndWrite(records);
 	}
 
