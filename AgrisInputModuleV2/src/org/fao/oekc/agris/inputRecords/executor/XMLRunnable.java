@@ -136,6 +136,8 @@ public class XMLRunnable implements Runnable{
 				//System.out.println("ARN"+records.get(i).getARN());
 				//records.get(i).setARN(null);
 			}
+			//else
+			//	write=true;
 			if(is_new)
 				write=true;
 		}
