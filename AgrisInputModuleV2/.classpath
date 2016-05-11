@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="lib/httpcore-4.3.jar"/>
 	<classpathentry kind="lib" path="lib/httpmime-4.3.1.jar"/>
 	<classpathentry kind="lib" path="lib/noggit-0.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Mihalis/git/AgrisInputV2/AgrisInputModuleV2/lib/jsoup-1.9.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

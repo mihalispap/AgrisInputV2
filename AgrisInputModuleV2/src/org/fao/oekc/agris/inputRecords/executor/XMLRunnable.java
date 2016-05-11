@@ -138,7 +138,7 @@ public class XMLRunnable implements Runnable{
 			}
 			//else
 			//	write=true;
-			if(is_new)
+			if(is_new/* || 1==1*/)
 				write=true;
 		}
 		

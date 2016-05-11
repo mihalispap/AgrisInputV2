@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.jfcutils.util.StringUtils;
-
+import org.jsoup.Jsoup;
 import org.fao.oekc.agris.inputRecords.dom.AgrisApDoc;
 import org.fao.oekc.agris.inputRecords.util.ArnManager;
 
@@ -252,6 +252,9 @@ public class WriteAgrisApXml {
 								abs = abs.replaceAll("]]>", "");
 							}
 							String lang = rec.getAbstract2language().get(abs);
+							
+							abs=Jsoup.parse(abs).text();
+							
 							if(lang!=null && lang.length()>0)
 								out.write("<dcterms:abstract xml:lang=\""+lang.toLowerCase()+"\"><![CDATA["+abs+"]]></dcterms:abstract>");
 							else
